@@ -47,7 +47,6 @@
     </fieldset>
 <p>
 </fieldset>
-</fieldset>
         <legend>使用行為</legend>
         <input type="checkbox" name="behavior[]" id="behavior1">
         <label for="behavior1">聊天</label>
@@ -61,7 +60,6 @@
         <label for="behavior5">購物</label>
         <input type="checkbox" name="behavior[]" id="behavior6">
         <label for="behavior6">金融</label>
-        </fieldset>
  </fieldset>
     </p>
     <fieldset>
@@ -144,6 +142,9 @@ if (isset($_POST["submit"])) {
     $bday   = $_REQUEST["bday"];
     $phone  = $_REQUEST["phone"];
     $area   = $_REQUEST["area"];
+    $place  = $_REQUEST["place"];
+    $device = $_REQUEST["device"];
+    $service = $_REQUEST["service"];
 
     echo "<p>資料收到</p>";
 
@@ -160,6 +161,8 @@ if (isset($_POST["submit"])) {
     echo "<p>你的生日:" . $bday ."</p>";
     echo "<p>你的電話:" . $phone ."</p>";
     echo "<p>你居住區域:" . $area ."</p>";
+    
+    echo "<p>滿意度: 場地: $place , 設備:$device, 服務:$service </p>";
 }
 
 ?>
