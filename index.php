@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>活動報名表</h1>
-    <form action="">
+    <form action="" method="post">
 
     <fieldest>
     <legend>基本資料<legend>
@@ -47,7 +47,6 @@
     </fieldset>
 
 </fieldset>
-    <fieldset>
         <legend>使用行為</legend>
         <input type="checkbox" name="behavior[]" id="behavior1">
         <label for="behavior1">聊天</label>
@@ -66,6 +65,7 @@
 
     <fieldset>
         <legend>滿意度</legend>
+
         <label for="">場地</label>
         <input type="radio" name="place" id="place1" value="5">
         <label for="place1">非常滿意</label>
@@ -78,7 +78,7 @@
         <input type="radio" name="place" id="place5" value="1">
         <label for="place5">非常不滿意</label>
 
-   
+        </fieldset>
 
         <legend>滿意度</legend>
         <label for="">設備</label>
@@ -108,23 +108,35 @@
 
         </fieldset>
 
-    <fieldset>
-        <legend>資料上傳</legend>
+   <fieldset>
+    <legend>資料上傳</legend>
 
-        <p>
-            <label for="">同意書</label>
-            <input type="file" name="agreement" id="agreement" accept=".pdf,.doc,.docx">
-        </p>
-        <p>
-            <label for="photo">個人照片</label>
-            <input type="file" name="photo" id="photo" accept="image/*">
-        </p>
-    </fieldset>
+    <p>
+        <label for="">同意書</label>
+        <input type="file" name="agreement" id="agreement" accept=".pdf,.doc,.docx" >
+    </p>
+
+    <p>
+        <label for="image">個人照片</label>
+        <input type="file" name="image" accept="image/*" onchange="preview_image(event)" >
+        <div><img id="output_image" width="300"></div>
+    </p>
+
+   </fieldset>
 
     <input type="submit" name="submit" value="送出">
     </form>
+    <script type='text/javascript'>
+function preview_image(event) {
+    var reader = new FileReader();
+    reader.onload = function () {
+        var output = document.getElementById('output_image');
+        output.src = reader.result;
+    }
+    reader.readAsDataURL(event.target.files[0]);
+}
+</script>
 
-<hr>
 <?php
 
 if (isset($_POST["submit"])) {
@@ -153,15 +165,6 @@ if (isset($_POST["submit"])) {
 }
 
 ?>
-    <script type='text/javascript'>
-function preview_image(event) {
-    var reader = new FileReader();
-    reader.onload = function () {
-        var output = document.getElementById('output_image');
-        output.src = reader.result;
-    }
-    reader.readAsDataURL(event.target.files[0]);
-}
-</script>
+
 </body>
 </html>
