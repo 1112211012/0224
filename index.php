@@ -45,7 +45,8 @@
     </select>
     </p>
     </fieldset>
-
+<p>
+</fieldset>
 </fieldset>
         <legend>使用行為</legend>
         <input type="checkbox" name="behavior[]" id="behavior1">
@@ -60,9 +61,9 @@
         <label for="behavior5">購物</label>
         <input type="checkbox" name="behavior[]" id="behavior6">
         <label for="behavior6">金融</label>
-
-    </fieldset>
-
+        </fieldset>
+ </fieldset>
+    </p>
     <fieldset>
         <legend>滿意度</legend>
 
@@ -77,8 +78,6 @@
         <label for="place4">不滿意</label>
         <input type="radio" name="place" id="place5" value="1">
         <label for="place5">非常不滿意</label>
-
-        </fieldset>
 
         <legend>滿意度</legend>
         <label for="">設備</label>
@@ -105,9 +104,8 @@
         <label for="place4">不滿意</label>
         <input type="radio" name="place" id="place5" value="1">
         <label for="place5">非常不滿意</label>
-
         </fieldset>
-
+ 
    <fieldset>
     <legend>資料上傳</legend>
 
