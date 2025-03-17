@@ -121,9 +121,15 @@
         </p>
     </fieldset>
 
-    <input type="submit" value="送出">
+    <input type="submit" name="submit" value="送出">
     </form>
 
+<hr>
+<?php
+
+if (isset($_POST["submit"])) {
+    echo "收到資料"
+}
     <script type='text/javascript'>
 function preview_image(event) {
     var reader = new FileReader();
