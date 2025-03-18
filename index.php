@@ -139,8 +139,25 @@ function preview_image(event) {
 
 if (isset($_POST["submit"])) {
 
-    $name   = $_REQUEST["name"];
-    $gender = $_REQUEST["gender"];
+        /* echo "<pre>";
+    print_r($_POST);
+    echo "</pre>";
+     */
+
+     $name   = $_REQUEST["name"];
+    
+     /* $gender = $_REQUEST["gender"]; */
+     if (isset($_REQUEST["gender"])) {
+         if ($_REQUEST["gender"]=='1'): 
+             $gender = "男生";
+         elseif ($_REQUEST["gender"]=='2') :
+             $gender = "女生";
+         endif;
+     } else {
+         $gender = "沒寫";
+     }
+ 
+ 
     $bday   = $_REQUEST["bday"];
     $phone  = $_REQUEST["phone"];
     $area   = $_REQUEST["area"];
@@ -148,23 +165,25 @@ if (isset($_POST["submit"])) {
     $device = $_REQUEST["device"];
     $service = $_REQUEST["service"];
 
+    if (isset($_REQUEST["behavior"])) {
+        $behavior = implode(',', $_REQUEST["behavior"]);
+    } else {
+        $behavior = "沒有選任何項目";
+    }
+
+
     echo "<p>資料收到</p>";
 
     echo "<p>你的名字是:" . $name ."</p>";
 
-    if ($gender=="1") {
-        echo "<p>你是男生</p>";
-    } elseif ($gender=="2") {
-        echo "<p>你是女生</p>";
-    } else {
-        echo "<p>你是男生還是女生?</p>";
-    }
-
+   
+    echo "<p>你的名字是:" . $name ."</p>";
+    echo "<p>性別是: $gender </p>";
     echo "<p>你的生日:" . $bday ."</p>";
     echo "<p>你的電話:" . $phone ."</p>";
     echo "<p>你居住區域:" . $area ."</p>";
-
-    echo "<p>滿意度: 場地: $place , 設備:$device, 服務:$service </p>";
+    echo "<p>使用行為: $behavior </p>";
+  echo "<p>滿意度: 場地: $place , 設備:$device, 服務:$service </p>";
 }
 
 ?>
