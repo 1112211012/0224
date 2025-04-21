@@ -2,7 +2,7 @@
 $host = "localhost";
 $user = "root";
 $pass = "";
-$dbname = "midexam"; // 請自行更換
+$dbname = "school"; // 請自行更換
 
 $conn = new mysqli($host, $user, $pass, $dbname);
 if ($conn->connect_error) {
