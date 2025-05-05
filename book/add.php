@@ -4,6 +4,13 @@ $username = "root"; // 根據你的資料庫設定修改
 $password = ""; // 根據你的資料庫設定修改
 $dbname = "school"; // 修改為你的資料庫名稱
 
+session_start();
+if (!isset($_SESSION['user'])) {
+    echo "<script>alert('請先登入'); window.location.href='login.php';</script>";
+    exit;
+}
+
+
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {

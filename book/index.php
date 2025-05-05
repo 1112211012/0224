@@ -9,12 +9,26 @@ $result = $conn->query("SELECT * FROM book");
 
 $conn->close();
 ?>
+<?php
+session_start();
+include("db_conn.php");
+// 分頁與資料抓取邏輯維持不變
+?>
 
+<!-- 上方新增 -->
+<div style="text-align:right;">
+    <?php if (isset($_SESSION['user'])): ?>
+        歡迎 <?= htmlspecialchars($_SESSION['user']) ?>，<a href="logout.php">登出</a>
+    <?php else: ?>
+        <a href="login.php">登入</a> | <a href="register.php">註冊</a>
+    <?php endif; ?>
+</div>
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <title>書籍列表</title>
+
     <style>
         body { background-color: #E3D5CA; font-family: "Microsoft JhengHei", sans-serif; padding: 20px; }
         table { width: 80%; margin: auto; border-collapse: collapse; }

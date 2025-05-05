@@ -6,6 +6,8 @@ $dbname = "school"; // 修改為你的資料庫名稱
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
+include("auth.php");
+
 if ($conn->connect_error) {
     die("連線失敗: " . $conn->connect_error);
 }
@@ -130,7 +132,7 @@ $conn->close();
         <?php else: ?>
             <p>找不到該書籍。</p>
         <?php endif; ?>
-        <a class="back-link" href="book_list.php">返回書籍列表</a>
+        <a class="back-link" href="view.php">返回書籍列表</a>
     </div>
 </body>
 </html>
