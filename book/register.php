@@ -9,67 +9,58 @@ $username_err = $userpass_err = $usercnfm_err = "";
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 
-    $conn = new PDO("mysql:host=$hostname;dbname=$database;charset=UTF8", $dbuser, $dbpass);
-    // 設定錯誤處理模式 set the PDO error mode to exception
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    try {
+        // Create PDO connection
+        $conn = new PDO("mysql:host=$hostname;dbname=$database;charset=UTF8", $dbuser, $dbpass);
+        // Set PDO error mode to exception
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Validate username
-    if(empty(trim($_POST["username"]))){
-        $username_err = "Please enter a username.";
-    } elseif(!preg_match('/^[a-zA-Z0-9_]+$/', trim($_POST["username"]))){
-        $username_err = "Username can only contain letters, numbers, and underscores.";
-    } else{
-        // Prepare a select statement
-        $sql = "SELECT id FROM users WHERE username = :username";
-        if($stmt = $conn->prepare($sql)){
-
-            // Bind variables to the prepared statement as parameters
+        // Validate username
+        if(empty(trim($_POST["username"]))){
+            $username_err = "Please enter a username.";
+        } elseif(!preg_match('/^[a-zA-Z0-9_]+$/', trim($_POST["username"]))){
+            $username_err = "Username can only contain letters, numbers, and underscores.";
+        } else{
+            // Prepare a select statement to check if the username already exists
+            $sql = "SELECT id FROM users WHERE username = :username";
+            $stmt = $conn->prepare($sql);
             $stmt->bindParam(":username", $param_username, PDO::PARAM_STR);
-
-            // Set parameters
             $param_username = trim($_POST["username"]);
 
             // Attempt to execute the prepared statement
-            if($stmt->execute()){
-                if($stmt->rowCount() == 1){
-                    $username_err = "This username is already taken.";
-                } else{
-                    $username = trim($_POST["username"]);
-                }
+            $stmt->execute();
+
+            if($stmt->rowCount() == 1){
+                $username_err = "This username is already taken.";
             } else{
-                echo "Oops! Something went wrong. Please try again later.";
+                $username = trim($_POST["username"]);
             }
-
-            // Close statement
-            unset($stmt);
         }
-    }
 
-    // Validate password
-    if(empty(trim($_POST["userpass"]))){
-        $userpass_err = "Please enter a password.";
-    } elseif(strlen(trim($_POST["userpass"])) < 6){
-        $userpass_err = "Password must have atleast 6 characters.";
-    } else{
-        $userpass = trim($_POST["userpass"]);
-    }
-
-    // Validate confirm password
-    if(empty(trim($_POST["usercnfm"]))){
-        $usercnfm_err = "Please confirm password.";
-    } else{
-        $usercnfm = trim($_POST["usercnfm"]);
-        if(empty($userpass_err) && ($userpass != $usercnfm)){
-            $usercnfm_err = "Password did not match. $userpass $usercnfm";
+        // Validate password
+        if(empty(trim($_POST["userpass"]))){
+            $userpass_err = "Please enter a password.";
+        } elseif(strlen(trim($_POST["userpass"])) < 6){
+            $userpass_err = "Password must have at least 6 characters.";
+        } else{
+            $userpass = trim($_POST["userpass"]);
         }
-    }
 
-    // Check input errors before inserting in database
-    if(empty($username_err) && empty($userpass_err) && empty($usercnfm_err)){
+        // Validate confirm password
+        if(empty(trim($_POST["usercnfm"]))){
+            $usercnfm_err = "Please confirm your password.";
+        } else{
+            $usercnfm = trim($_POST["usercnfm"]);
+            if(empty($userpass_err) && ($userpass != $usercnfm)){
+                $usercnfm_err = "Password did not match.";
+            }
+        }
 
-        // Prepare an insert statement
-        $sql = "INSERT INTO `users` (`username`, `userpass`) VALUES (:username, :userpass)";
-        if($stmt = $conn->prepare($sql)){
+        // Check input errors before inserting in database
+        if(empty($username_err) && empty($userpass_err) && empty($usercnfm_err)){
+            // Prepare an insert statement
+            $sql = "INSERT INTO users (username, userpass) VALUES (:username, :userpass)";
+            $stmt = $conn->prepare($sql);
 
             // Bind variables to the prepared statement as parameters
             $stmt->bindParam(":username", $param_username, PDO::PARAM_STR);
@@ -83,17 +74,21 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             if($stmt->execute()){
                 // Redirect to login page
                 header("location: login.php");
+                exit();
             } else{
                 echo "Oops! Something went wrong. Please try again later.";
             }
-            // Close statement
-            unset($stmt);
         }
+
+        // Close connection
+        unset($stmt);
+        unset($conn);
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
     }
-    // Close connection
-    unset($pdo);
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

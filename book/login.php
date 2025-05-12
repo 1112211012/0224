@@ -6,22 +6,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
     $password = $_POST["password"];
 
-    $stmt = $conn->prepare("SELECT * FROM users WHERE username = ?");
-    $stmt->bind_param("s", $username);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($row = $result->fetch_assoc()) {
-        if (password_verify($password, $row["password"])) {
-            $_SESSION["user"] = $row["username"];
-            echo "<script>alert('登入成功'); window.location.href='index.php';</script>";
-        } else {
-            echo "<script>alert('密碼錯誤');</script>";
-        }
+    // 檢查帳號格式：只允許字母、數字和底線
+    if (!preg_match("/^[a-zA-Z0-9_]+$/", $username)) {
+        echo "<script>alert('帳號只能包含字母、數字和底線');</script>";
     } else {
-        echo "<script>alert('帳號不存在');</script>";
+        // 檢查密碼長度：至少 6 個字符
+        if (strlen($password) < 6) {
+            echo "<script>alert('密碼必須至少 6 個字符');</script>";
+        } else {
+            // 檢查帳號是否存在
+            $stmt = $conn->prepare("SELECT * FROM users WHERE username = ?");
+            $stmt->bind_param("s", $username);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if ($row = $result->fetch_assoc()) {
+                // 密碼驗證
+                if (password_verify($password, $row["userpass"])) {
+                    $_SESSION["user"] = $row["username"];
+                    echo "<script>alert('登入成功'); window.location.href='index.php';</script>";
+                } else {
+                    echo "<script>alert('密碼錯誤');</script>";
+                }
+            } else {
+                echo "<script>alert('帳號不存在');</script>";
+            }
+        }
     }
 }
+
 ?>
 
 <!DOCTYPE html>

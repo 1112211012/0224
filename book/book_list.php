@@ -3,7 +3,8 @@ session_start();
 include("db_conn.php");
 
 if (!isset($_SESSION['user'])) {
-    header("Location: login.php"); // 若未登入，則重定向到登入頁面
+    // 如果未登入，重定向到登入頁面
+    header("Location: login.php");
     exit();
 }
 
@@ -31,6 +32,7 @@ $result = $conn->query("SELECT * FROM book");
         .btn:hover { opacity: 0.8; }
         .actions { display: flex; justify-content: space-around; }
         .top-bar { text-align: right; margin-bottom: 15px; }
+        .top-bar a { text-decoration: none; }
 
         /* Modal styles */
         .modal { display: none; position: fixed; z-index: 999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
@@ -42,7 +44,7 @@ $result = $conn->query("SELECT * FROM book");
 
 <div class="top-bar">
     <?php if (isset($_SESSION['user'])): ?>
-        歡迎 <?= htmlspecialchars($_SESSION['user']) ?>，<a href="logout.php">登出</a>
+        歡迎 <?= htmlspecialchars($_SESSION['user']) ?>，<a href="logout.php" class="btn">登出</a>
     <?php else: ?>
         <button onclick="document.getElementById('loginModal').style.display='block'" class="btn">登入</button>
         <a href="register.php" class="btn">註冊</a>
@@ -50,6 +52,7 @@ $result = $conn->query("SELECT * FROM book");
 </div>
 
 <h2 style="text-align: center; color: #4F4A45;">書籍列表</h2>
+
 <table>
     <tr>
         <th>ID</th>
@@ -76,6 +79,7 @@ $result = $conn->query("SELECT * FROM book");
         </tr>
     <?php } ?>
 </table>
+
 <div style="text-align: center; margin-top: 20px;">
     <a href="add.php" class="btn">新增書籍</a>
 </div>
