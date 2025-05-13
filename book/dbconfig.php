@@ -16,5 +16,5 @@ if ($conn->connect_error) {
 $conn->set_charset("utf8mb4");
 
 // 首頁設定
-$main = 'db_list.php';
+$main = 'book_list.php';
 ?>
