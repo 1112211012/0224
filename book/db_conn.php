@@ -1,8 +1,8 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "school";
+$servername = "sql200.infinityfree.com";
+$username = "if0_39080845";
+$password = "FyZHzDaB5M0Cr";
+$dbname = "if0_39080845_012";
 
 // 建立連接
 $conn = new mysqli($servername, $username, $password, $dbname);
