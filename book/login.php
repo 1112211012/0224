@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("db_conn.php");
+include("dbconfig.php");
 
 $conn = new mysqli("localhost", "root", "", "school");
 if ($conn->connect_error) {
